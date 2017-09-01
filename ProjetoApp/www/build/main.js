@@ -150,7 +150,18 @@ var LivroListPage = LivroListPage_1 = (function () {
         // If we navigated to this page, we will have an item available as a nav param
         this.selectedItem = navParams.get('item');
         this.items = [];
-        this.items.push({ id: 1, titulo: "Livro 1", ano: 2017 });
+        this.items.push({ id: 1, titulo: "Livro 1", ano: 2017, img: "assets/capas/livro1.jpg" });
+        this.items.push({ id: 1, titulo: "Livro 2", ano: 2016, img: "assets/capas/livro2.jpg" });
+        this.items.push({ id: 1, titulo: "Livro 3", ano: 2015, img: "assets/capas/livro3.jpg" });
+        this.items.push({ id: 1, titulo: "Livro 4", ano: 2016, img: "assets/capas/livro4.jpg" });
+        this.items.push({ id: 1, titulo: "Livro 5", ano: 2016, img: "assets/capas/livro5.jpg" });
+        this.items.push({ id: 1, titulo: "Livro 6", ano: 2013, img: "assets/capas/livro6.jpg" });
+        this.items.push({ id: 1, titulo: "Livro 7", ano: 2010, img: "assets/capas/livro7.jpg" });
+        this.items.push({ id: 1, titulo: "Livro 8", ano: 2017, img: "assets/capas/livro8.jpg" });
+        this.items.push({ id: 1, titulo: "Livro 9", ano: 2012, img: "assets/capas/livro9.jpg" });
+        this.items.push({ id: 1, titulo: "Livro 10", ano: 2015, img: "assets/capas/livro10.jpg" });
+        this.itemsFilter = this.items;
+        this.visibilidade = false;
     }
     LivroListPage.prototype.itemTapped = function (event, item) {
         // That's right, we're pushing to ourselves!
@@ -158,16 +169,35 @@ var LivroListPage = LivroListPage_1 = (function () {
             item: item
         });
     };
+    LivroListPage.prototype.novoItem = function (event, item) {
+    };
+    LivroListPage.prototype.abrirPesquisa = function (event) {
+        this.visibilidade = true;
+    };
+    LivroListPage.prototype.pesquisar = function (event) {
+        var _this = this;
+        this.itemsFilter = this.items.filter(function (i) {
+            if (i.titulo.indexOf(_this.pesquisa) >= 0) {
+                return true;
+            }
+            return false;
+        });
+    };
+    LivroListPage.prototype.cancelarPesquisa = function () {
+        this.visibilidade = false;
+        this.pesquisa = "";
+        this.pesquisar(null);
+    };
     return LivroListPage;
 }());
 LivroListPage = LivroListPage_1 = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-livro-list',template:/*ion-inline-start:"D:\GitHub\Ionic_2sem2017\ProjetoApp\src\pages\livro-list\livro-list.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Listagem Livros</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <ion-list>\n    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">\n      <ion-icon [name]="item.ano" item-left></ion-icon>\n      {{item.titulo}}\n      <div class="item-note" item-right>\n        Disponível\n      </div>\n    </button>\n  </ion-list>\n  <div *ngIf="selectedItem" padding>\n    You navigated here from <b>{{selectedItem.title}}</b>\n  </div>\n</ion-content>\n'/*ion-inline-end:"D:\GitHub\Ionic_2sem2017\ProjetoApp\src\pages\livro-list\livro-list.html"*/
+        selector: 'page-livro-list',template:/*ion-inline-start:"D:\GitHub\Ionic_2sem2017\ProjetoApp\src\pages\livro-list\livro-list.html"*/'<ion-header>\n  <ion-navbar color="primary" *ngIf="!visibilidade">\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Listagem Livros</ion-title>\n\n    <ion-buttons end>\n      <button ion-button icon-only (click)="abrirPesquisa($event)">\n        <ion-icon name="search"></ion-icon>\n      </button>\n      <button ion-button icon-only (click)="novoItem($event)">\n        <ion-icon name="add"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n\n  <ion-navbar color="primary" *ngIf="visibilidade">\n    <ion-searchbar [(ngModel)]="pesquisa"\n                   [showCancelButton]="shouldShowCancel"\n                   (ionInput)="pesquisar($event)"\n                   (ionClear)="cancelarPesquisa()">\n    </ion-searchbar>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n\n  <ion-list>\n    <ion-item>\n      <button ion-item *ngFor="let item of itemsFilter" (click)="itemTapped($event, item)">\n        <ion-thumbnail item-start>\n          <img src="{{item.img}}">\n        </ion-thumbnail>\n        <h2>{{item.titulo}}</h2>\n        <p>{{item.ano}}</p>\n        <button ion-button clear item-end>Ver</button>\n      </button>\n    </ion-item>\n  </ion-list>\n\n</ion-content>\n\n'/*ion-inline-end:"D:\GitHub\Ionic_2sem2017\ProjetoApp\src\pages\livro-list\livro-list.html"*/
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]) === "function" && _b || Object])
 ], LivroListPage);
 
-var LivroListPage_1;
+var LivroListPage_1, _a, _b;
 //# sourceMappingURL=livro-list.js.map
 
 /***/ }),
@@ -311,15 +341,14 @@ var MyApp = (function () {
 }());
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* Nav */]),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* Nav */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* Nav */]) === "function" && _a || Object)
+    __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* Nav */])
 ], MyApp.prototype, "nav", void 0);
 MyApp = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({template:/*ion-inline-start:"D:\GitHub\Ionic_2sem2017\ProjetoApp\src\app\app.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <ion-title>Menu</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">\n        {{p.title}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<!-- Disable swipe-to-go-back because it\'s poor UX to combine STGB with side menus -->\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>'/*ion-inline-end:"D:\GitHub\Ionic_2sem2017\ProjetoApp\src\app\app.html"*/
     }),
-    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Platform */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Platform */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
 ], MyApp);
 
-var _a, _b, _c, _d;
 //# sourceMappingURL=app.component.js.map
 
 /***/ })
