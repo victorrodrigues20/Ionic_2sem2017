@@ -10,6 +10,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {LivroListPage} from "../pages/livro-list/livro-list";
 import { LivroProvider } from "../providers/livro";
+import {LivroAddPage} from "../pages/livro-add/livro-add";
+import {LivroDetailsPage} from "../pages/livro-details/livro-details";
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { LivroProvider } from "../providers/livro";
     HomePage,
     ListPage,
     LivroListPage,
+    LivroAddPage,
+    LivroDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -28,6 +32,8 @@ import { LivroProvider } from "../providers/livro";
     HomePage,
     ListPage,
     LivroListPage,
+    LivroAddPage,
+    LivroDetailsPage
   ],
   providers: [
     StatusBar,
