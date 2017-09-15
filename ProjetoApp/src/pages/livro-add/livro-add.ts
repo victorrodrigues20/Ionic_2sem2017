@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {LivroProvider} from "../../providers/livro";
 import {ILivro} from "../../interfaces/ILivro";
+import {Camera, CameraOptions} from "@ionic-native/camera";
 
 /**
  * Generated class for the LivroAddPage page.
@@ -20,8 +21,9 @@ export class LivroAddPage {
   //ano:number;
   livro:ILivro;
   modoEdicao : boolean;
+  imagemUploaded : boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public livroProvider:LivroProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public livroProvider:LivroProvider, private camera: Camera) {
 
     this.livro = navParams.get("item");
 
@@ -31,6 +33,8 @@ export class LivroAddPage {
     }
     else
       this.modoEdicao = true;
+
+    this.imagemUploaded = (this.livro.img != "" && this.livro.img != null);
   }
 
   ionViewDidLoad() {
@@ -51,6 +55,47 @@ export class LivroAddPage {
 
   cancelar() {
     this.navCtrl.pop();
+  }
+
+  cancelarImagem() {
+    this.livro.img = "";
+    this.imagemUploaded = false;
+  }
+
+  tirarFoto() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      let base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.livro.img = base64Image;
+      this.imagemUploaded = true;
+    }, (err) => {
+    });
+  }
+
+  escolherImagem() {
+
+    const options: CameraOptions = {
+      quality: 50,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      allowEdit: true,
+      saveToPhotoAlbum: false
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      let base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.livro.img = base64Image;
+      this.imagemUploaded = true;
+    }, (err) => {
+    });
   }
 
 }

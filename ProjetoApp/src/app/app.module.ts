@@ -10,8 +10,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {LivroListPage} from "../pages/livro-list/livro-list";
 import { LivroProvider } from "../providers/livro";
-import {LivroAddPage} from "../pages/livro-add/livro-add";
-import {LivroDetailsPage} from "../pages/livro-details/livro-details";
+import { LivroAddPage } from "../pages/livro-add/livro-add";
+import { LivroDetailsPage } from "../pages/livro-details/livro-details";
+import {Camera} from "@ionic-native/camera";
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import {LivroDetailsPage} from "../pages/livro-details/livro-details";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    LivroProvider
+    LivroProvider,
+    Camera
   ]
 })
 export class AppModule {}

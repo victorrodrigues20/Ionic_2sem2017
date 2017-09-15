@@ -58,38 +58,9 @@ export class LivroListPage {
     this.pesquisar(null);
   }
 
-  ionViewDidLoad() {
-    console.log("1 - ionViewDidLoad");
-  }
   ionViewWillEnter() {
-    console.log("2 - ionViewWillEnter");
-
     this.items = this.livroProvider.getLivros();
     this.itemsFilter = this.items;
   }
 
-  ionViewDidEnter() {
-    //this.items = this.livroProvider.getLivros();
-    console.log("3 - ionViewDidEnter");
-  }
-
-  ionViewWillLeave() {
-    console.log("4 - ionViewWillLeave");
-  }
-
-  ionViewDidLeave() {
-    console.log("5 - ionViewDidLeave");
-  }
-
-  ionViewWillUnload() {
-    console.log("6 - ionViewWillUnload");
-  }
-
-  ionViewCanEnter() {
-    console.log("7 - ionViewCanEnter");
-  }
-
-  ionViewCanLeave() {
-    console.log("8 - ionViewCanLeave");
-  }
 }
