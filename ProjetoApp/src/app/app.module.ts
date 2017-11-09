@@ -10,8 +10,17 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {LivroListPage} from "../pages/livro-list/livro-list";
 import { LivroProvider } from "../providers/livro";
-import {LivroAddPage} from "../pages/livro-add/livro-add";
-import {LivroDetailsPage} from "../pages/livro-details/livro-details";
+import { LivroAddPage } from "../pages/livro-add/livro-add";
+import { LivroDetailsPage } from "../pages/livro-details/livro-details";
+import {Camera} from "@ionic-native/camera";
+import { CategoriaProvider } from '../providers/categoria';
+import { HttpModule } from "@angular/http";
+import { AutorProvider } from '../providers/autor';
+import { LivroAutorProvider } from '../providers/livro-autor';
+import {SignupPage} from "../pages/signup/signup";
+import {SigninPage} from "../pages/signin/signin";
+import {LogoutPage} from "../pages/logout/logout";
+import { LoginProvider } from '../providers/login';
 
 @NgModule({
   declarations: [
@@ -20,10 +29,14 @@ import {LivroDetailsPage} from "../pages/livro-details/livro-details";
     ListPage,
     LivroListPage,
     LivroAddPage,
-    LivroDetailsPage
+    LivroDetailsPage,
+    SignupPage,
+    SigninPage,
+    LogoutPage,
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
@@ -33,13 +46,21 @@ import {LivroDetailsPage} from "../pages/livro-details/livro-details";
     ListPage,
     LivroListPage,
     LivroAddPage,
-    LivroDetailsPage
+    LivroDetailsPage,
+    SignupPage,
+    SigninPage,
+    LogoutPage,
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    LivroProvider
+    LivroProvider,
+    Camera,
+    CategoriaProvider,
+    AutorProvider,
+    LivroAutorProvider,
+    LoginProvider
   ]
 })
 export class AppModule {}

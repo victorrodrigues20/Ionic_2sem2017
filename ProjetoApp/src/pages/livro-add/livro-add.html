@@ -30,6 +30,33 @@
       <ion-input type="number" [(ngModel)]="livro.ano"></ion-input>
     </ion-item>
 
+    <ion-item>
+      <ion-label>Imagem</ion-label>
+
+      <ion-thumbnail item-start *ngIf="imagemUploaded">
+        <img src="{{livro.img}}">
+      </ion-thumbnail>
+
+      <button ion-button item-right color="danger" *ngIf="imagemUploaded" (click)="cancelarImagem()" >
+        <ion-icon name="camera"></ion-icon>Alterar
+      </button>
+
+      <button ion-button item-right color="positive" *ngIf="!imagemUploaded" (click)="tirarFoto()">
+        <ion-icon name="camera"></ion-icon>&nbsp;Camera
+      </button>
+
+      <button ion-button item-right color="positive" *ngIf="!imagemUploaded" (click)="escolherImagem()">
+        <ion-icon name="images"></ion-icon>&nbsp;Galeria
+      </button>
+
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Autores</ion-label>
+      <button ion-button item-right color="positive" (click)="gerenciarAutores()">
+        <ion-icon name="add"></ion-icon>&nbsp;Gerenciar
+      </button>
+    </ion-item>
   </ion-list>
 
   <ion-buttons>

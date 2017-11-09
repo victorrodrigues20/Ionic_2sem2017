@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {LivroProvider} from "../../providers/livro";
 import {ILivro} from "../../interfaces/ILivro";
+import {Camera, CameraOptions} from "@ionic-native/camera";
+import {AutorProvider} from "../../providers/autor";
+import {LivroAutorProvider} from "../../providers/livro-autor";
 
 /**
  * Generated class for the LivroAddPage page.
@@ -20,8 +23,12 @@ export class LivroAddPage {
   //ano:number;
   livro:ILivro;
   modoEdicao : boolean;
+  imagemUploaded : boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public livroProvider:LivroProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              public livroProvider:LivroProvider, private camera: Camera,
+              public alertCtrl: AlertController, public autorProvider:AutorProvider,
+              public livroAutorProvider:LivroAutorProvider) {
 
     this.livro = navParams.get("item");
 
@@ -31,6 +38,8 @@ export class LivroAddPage {
     }
     else
       this.modoEdicao = true;
+
+    this.imagemUploaded = (this.livro.img != "" && this.livro.img != null);
   }
 
   ionViewDidLoad() {
@@ -51,6 +60,84 @@ export class LivroAddPage {
 
   cancelar() {
     this.navCtrl.pop();
+  }
+
+  cancelarImagem() {
+    this.livro.img = "";
+    this.imagemUploaded = false;
+  }
+
+  tirarFoto() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      let base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.livro.img = base64Image;
+      this.imagemUploaded = true;
+    }, (err) => {
+    });
+  }
+
+  gerenciarAutores() {
+
+    let autores = this.autorProvider.getAutores();
+    let livrosAutores = this.livroAutorProvider.getLivrosAutores(this.livro);
+
+    let alert = this.alertCtrl.create();
+    alert.setTitle('Selecione os Autores:');
+
+    for (let i=0; i < autores.length; i++) {
+
+      //livrosAutores
+      let possuiAutor:boolean = livrosAutores.some((a) => {
+        if (a.autorId == autores[i].id) {
+          return true;
+        }
+        return false;
+      });
+
+      alert.addInput({
+        type: 'checkbox',
+        label: autores[i].nome,
+        value: autores[i].id.toString(),
+        checked: possuiAutor
+      });
+    }
+
+    alert.addButton('Cancelar');
+    alert.addButton({
+      text: 'Salvar',
+      handler: data => {
+        this.livroAutorProvider.adicionarLivroAutor(this.livro, data);
+      }
+    });
+
+    alert.present();
+  }
+
+  escolherImagem() {
+
+    const options: CameraOptions = {
+      quality: 50,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      allowEdit: true,
+      saveToPhotoAlbum: false
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      let base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.livro.img = base64Image;
+      this.imagemUploaded = true;
+    }, (err) => {
+    });
   }
 
 }

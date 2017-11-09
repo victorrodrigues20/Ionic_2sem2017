@@ -29,7 +29,7 @@ export class LivroProvider {
 
   getInstancia() : ILivro {
     return {
-      id : this.getNextID(),
+      id : 0,
       titulo : "",
       ano : null,
       img : ""
@@ -41,7 +41,9 @@ export class LivroProvider {
   }
 
   adicionarLivro(livro:ILivro) {
-    console.log(livro);
+    if (livro.id == 0)
+      livro.id = this.getNextID();
+
     this.livros.push(livro);
   }
 
@@ -72,7 +74,7 @@ export class LivroProvider {
     let position = this.livros.findIndex((l:ILivro) => {
       return l.id == livro.id;
     })
-    console.log(position);
+
     this.livros[position].titulo = livro.titulo;
     this.livros[position].ano = livro.ano;
     this.livros[position].img = livro.img;

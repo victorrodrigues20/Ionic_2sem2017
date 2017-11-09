@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {AlertController, NavController, NavParams} from 'ionic-angular';
 import { LivroProvider } from "../../providers/livro";
 import { ILivro } from "../../interfaces/ILivro";
 import {LivroAddPage} from "../livro-add/livro-add";
 import {LivroDetailsPage} from "../livro-details/livro-details";
+import {CategoriaProvider} from "../../providers/categoria";
 
 @Component({
   selector: 'page-livro-list',
@@ -17,8 +18,10 @@ export class LivroListPage {
   pesquisa : string;
   visibilidade: boolean;
   itemsFilter : Array<ILivro>;
+  categorias = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public livroProvider:LivroProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public livroProvider:LivroProvider,
+              public alertCtrl: AlertController, public categoriaProvider:CategoriaProvider) {
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedItem = navParams.get('item');
     this.visibilidade = false;
@@ -29,6 +32,29 @@ export class LivroListPage {
     this.navCtrl.push(LivroDetailsPage, {
       item : item
     });
+  }
+
+  deletarRegistro(event, item) {
+    let confirmar = this.alertCtrl.create({
+      title: 'Confirmação',
+      message: 'Deseja excluir esse registro?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: () => {
+            //console.log('Disagree clicked');
+          }
+        },
+        {
+          text: 'Excluir',
+          handler: () => {
+            this.livroProvider.removerLivro(item);
+          }
+        }
+      ]
+    });
+
+    confirmar.present();
   }
 
   voltarPagina() {
@@ -58,38 +84,15 @@ export class LivroListPage {
     this.pesquisar(null);
   }
 
-  ionViewDidLoad() {
-    console.log("1 - ionViewDidLoad");
-  }
   ionViewWillEnter() {
-    console.log("2 - ionViewWillEnter");
-
     this.items = this.livroProvider.getLivros();
     this.itemsFilter = this.items;
-  }
 
-  ionViewDidEnter() {
-    //this.items = this.livroProvider.getLivros();
-    console.log("3 - ionViewDidEnter");
-  }
-
-  ionViewWillLeave() {
-    console.log("4 - ionViewWillLeave");
-  }
-
-  ionViewDidLeave() {
-    console.log("5 - ionViewDidLeave");
-  }
-
-  ionViewWillUnload() {
-    console.log("6 - ionViewWillUnload");
-  }
-
-  ionViewCanEnter() {
-    console.log("7 - ionViewCanEnter");
-  }
-
-  ionViewCanLeave() {
-    console.log("8 - ionViewCanLeave");
+    /*
+    this.categoriaProvider.getCategorias().then(data => {
+      this.categorias = data;
+      console.log("categorias ***");
+      console.log(this.categorias);
+    });*/
   }
 }
